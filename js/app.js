@@ -11,10 +11,7 @@ class Enemy {
     this.ranNum = Math.floor(Math.random() * 3);
     this.initialLocationArray = [60, 145, 228]
     this.y = this.initialLocationArray[this.ranNum];
-    this.speed = "";
-    // this.canv = document.getElementById("canvas");
-    // this.ctxt = this.canv.getContext("2d");
-    // this.ctx = canvas.getContext('2d');
+    this.speed = 1;
   }
   // Update the enemy's position, required method for game
   // Parameter: dt, a time delta between ticks
@@ -22,6 +19,8 @@ class Enemy {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
+
+    // this.y = this.y + this.speed * dt;    
   }
   // Draw the enemy on the screen, required method for game
   render() {
@@ -42,18 +41,23 @@ class Enemy {
 // a handleInput() method.
 class Player {
     constructor() {
-        this.sprite = "images/char-cat-girl.png";
-        this.initialLocation = '';
+        this.sprite = "images/char-boy.png";
+        this.x = 200;
+        this.y = 380;
     }
     update(dt) {}
-    render() {}
-    handleInput(allowedKeys) {}
-    reset() {}
+    render() {
+      ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    }
+    // handleInput(allowedKeys) {}
+    // reset() {}
 }
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+const player = new Player();
+
 let allEnemies = [];
 // setInterval(function() { 
 //   let enemy = new Enemy();
@@ -64,8 +68,6 @@ let allEnemies = [];
 // }, 10000);
 const enemy = new Enemy();
 allEnemies.push(enemy);
-
-const player = new Player();
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
