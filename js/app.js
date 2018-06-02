@@ -8,10 +8,12 @@ class Enemy {
   constructor() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
-    this.ranNum = Math.floor(Math.random() * 3);
+    this.ranNumForLocation = Math.floor(Math.random() * 3);
     this.initialLocationArray = [60, 145, 228]
-    this.y = this.initialLocationArray[this.ranNum];
-    this.speed = 1;
+    this.y = this.initialLocationArray[this.ranNumForLocation];
+    this.ranNumForSpeed = Math.floor(Math.random() * 8);
+    this.speedArray = [100, 150, 200, 250, 300, 350, 400, 450, 500];
+    this.speed = this.speedArray[this.ranNumForSpeed];
   }
   // Update the enemy's position, required method for game
   // Parameter: dt, a time delta between ticks
@@ -20,21 +22,18 @@ class Enemy {
     // which will ensure the game runs at the same speed for
     // all computers.
 
-    // this.y = this.y + this.speed * dt;    
+    this.x = this.x + this.speed * dt;
+    // if(this.x - Player.x) {
+    //   Player.reset()
+    //   allEnemies = [];
+    // }
+    // console.log(Player.x);
   }
   // Draw the enemy on the screen, required method for game
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 };
-
-// Enemy.prototype.update = function(dt) {
-    
-// };
-
-// Enemy.prototype.render = function() {
-//   ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-// };
 
 // Now write your own player class
 // This class requires an update(), render() and
@@ -45,12 +44,42 @@ class Player {
         this.x = 200;
         this.y = 380;
     }
-    update(dt) {}
+    update(dt) {
+      if(this.y === -20) {
+        this.reset();
+        allEnemies = [];
+      }
+    }
     render() {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
-    // handleInput(allowedKeys) {}
-    // reset() {}
+    handleInput(allowedKeys) {
+      switch (allowedKeys) {
+        case "up":
+          if (this.y > -20) {
+            this.y = this.y - 80;
+          }
+        break;
+        case "down":
+        if (this.y < 380) {
+          this.y = this.y + 80;
+        }
+        break;
+        case "left":
+          if (this.x > -4) {
+            this.x = this.x - 102;
+          }
+        break;
+        case 'right':
+          if (this.x < 404) {
+            this.x = this.x + 102;
+          }
+      }
+    }
+    reset() {
+      this.x = 200;
+      this.y = 380; 
+    }
 }
 
 // Now instantiate your objects.
@@ -59,15 +88,11 @@ class Player {
 const player = new Player();
 
 let allEnemies = [];
-// setInterval(function() { 
-//   let enemy = new Enemy();
-//   allEnemies.push(enemy);
-// }, 2000);
-// setTimeout(function() {
-//   console.log(allEnemies);
-// }, 10000);
-const enemy = new Enemy();
-allEnemies.push(enemy);
+
+setInterval(function() { 
+  let enemy = new Enemy();
+  allEnemies.push(enemy);
+}, 1000);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
