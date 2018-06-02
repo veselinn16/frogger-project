@@ -1,16 +1,19 @@
+Window.onload = function() {
+  Resources.get('images/enemy-bug.png');
+}
 // Enemies our player must avoid
-// let canvas = global.document.getElementsByTagName('canvas');
-// let ctx = canvas.getContext("2d");
 class Enemy {
   // Variables applied to each of our instances go here,
   // we've provided one for you to get started
   constructor() {
-    this.sprite = "../images/enemy-bug.png";
-    this.x = 252;
-    this.y = 303;
+    this.sprite = 'images/enemy-bug.png';
+    this.x = 0;
+    this.ranNum = Math.floor(Math.random() * 3);
+    this.initialLocationArray = [60, 145, 228]
+    this.y = this.initialLocationArray[this.ranNum];
     this.speed = "";
-    // this.x = 1;
-    // this.y = 300;
+    // this.canv = document.getElementById("canvas");
+    // this.ctxt = this.canv.getContext("2d");
     // this.ctx = canvas.getContext('2d');
   }
   // Update the enemy's position, required method for game
@@ -22,8 +25,7 @@ class Enemy {
   }
   // Draw the enemy on the screen, required method for game
   render() {
-    console.log(this.x, this.y);
-    // ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 };
 
@@ -60,11 +62,10 @@ let allEnemies = [];
 // setTimeout(function() {
 //   console.log(allEnemies);
 // }, 10000);
+const enemy = new Enemy();
+allEnemies.push(enemy);
 
 const player = new Player();
-
-// enemy.render();
-
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.

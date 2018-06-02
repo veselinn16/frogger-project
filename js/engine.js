@@ -12,7 +12,10 @@
  * This engine makes the canvas' context (ctx) object globally available to make 
  * writing app.js a little simpler to work with.
  */
-
+// var doc = global.document,
+//     win = global.window,
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
 var Engine = (function(global) {
     /* Predefine the variables we'll be using within this scope,
      * create the canvas element, grab the 2D context for that canvas
@@ -20,9 +23,9 @@ var Engine = (function(global) {
      */
     var doc = global.document,
         win = global.window,
-        canvas = doc.createElement('canvas'),
-        ctx = canvas.getContext('2d'),
-        lastTime;
+    //     canvas = doc.getElementById('canvas'),
+    //     ctx = canvas.getContext('2d'),
+        lastTime
 
     canvas.width = 505;
     canvas.height = 606;
