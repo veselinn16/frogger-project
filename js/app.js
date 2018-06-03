@@ -1,5 +1,5 @@
 //Disables scrolling with the arrow keys
-window.addEventListener("keydown", function(e) {
+window.addEventListener('keydown', function(e) {
     if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
       e.preventDefault();
     }
@@ -55,7 +55,7 @@ class Enemy {
 
     //Monitors collisions by comparing the player's and the enemy's columns and rows
     for(const enemy of allEnemies) {
-      if (enemy.col === player.col && enemy.row === player.row) {
+      if (this.col === player.col && this.row === player.row) {
         player.reset();
         allEnemies = [];
       }
@@ -70,7 +70,7 @@ class Enemy {
 //The Player class
 class Player {
     constructor() {
-        this.sprite = "images/char-boy.png";
+        this.sprite = 'images/char-boy.png';
         this.x = 200;
         this.y = 380;
         this.row = 6;
@@ -90,19 +90,19 @@ class Player {
     //Based on what the user presses, it moves the player and sets the column/row accordingly
     handleInput(allowedKeys) {
       switch (allowedKeys) {
-        case "up":
+        case 'up':
           if (this.y > -20) {
             this.y = this.y - 83;
             this.row -= 1;
           }
         break;
-        case "down":
+        case 'down':
         if (this.y < 380) {
           this.y = this.y + 83;
           this.row += 1;
         }
         break;
-        case "left":
+        case 'left':
           if (this.x > 4) {
             this.x = this.x - 101;
             this.col -= 1;
