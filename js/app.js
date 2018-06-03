@@ -1,10 +1,14 @@
-Window.onload = function() {
-  Resources.get('images/enemy-bug.png');
-}
-// Enemies our player must avoid
+//Disables scrolling with the arrow keys
+window.addEventListener("keydown", function(e) {
+    if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+      e.preventDefault();
+    }
+  },
+  false
+);
+// Enemies Class
 class Enemy {
-  // Variables applied to each of our instances go here,
-  // we've provided one for you to get started
+  // Variables applied to each of the instances
   constructor() {
     this.sprite = 'images/enemy-bug.png';
     this.x = 0;
@@ -17,30 +21,27 @@ class Enemy {
     this.row = null;
     this.col = 1;
   }
-  // Update the enemy's position, required method for game
-  // Parameter: dt, a time delta between ticks
+  // Update method updating the enemy's position
   update(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-
+    //Sets the speed of the enemy
     this.x = this.x + this.speed * dt;
 
-    if(this.x < 102) {
+    //Sets the column based on the location of the enemy
+    if(this.x < 62) {
       this.col = 1;
-    } else if(this.x < 203) {
+    } else if(this.x < 163) {
       this.col = 2;
-    } else if(this.x < 304) {
+    } else if(this.x < 264) {
       this.col = 3;
-    } else if(this.x < 405) {
+    } else if(this.x < 365) {
       this.col = 4;
-    } else if(this.x < 505) {
+    } else if(this.x < 465) {
       this.col = 5;
-    } else if(this.x < 550) {
+    } else if(this.x < 510) {
       this.col = 7;
     }
 
-
+    //Changes the column based on the location of the enemy
     switch(this.y) {
       case 48:
         this.row = 2;
@@ -52,24 +53,21 @@ class Enemy {
         this.row = 4;
     }
 
+    //Monitors collisions by comparing the player's and the enemy's columns and rows
     for(const enemy of allEnemies) {
-      // console.log(`   row is ${enemy.row}`);
-      // console.log(`col is ${enemy.col}`);
       if (enemy.col === player.col && enemy.row === player.row) {
         player.reset();
         allEnemies = [];
       }
     }
   }
-  // Draw the enemy on the screen, required method for game
+  //Render method drawing the enemy on the canvas
   render() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
   }
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
+//The Player class
 class Player {
     constructor() {
         this.sprite = "images/char-boy.png";
@@ -78,15 +76,18 @@ class Player {
         this.row = 6;
         this.col = 3;
     }
+    //When the player reaches the water, resets the game(win condition) 
     update(dt) {
       if(this.row === 1) {
         this.reset();
         allEnemies = [];
       }
     }
+    //Puts the player on the canvas
     render() {
       ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
     }
+    //Based on what the user presses, it moves the player and sets the column/row accordingly
     handleInput(allowedKeys) {
       switch (allowedKeys) {
         case "up":
@@ -114,6 +115,7 @@ class Player {
           }
       }
     }
+    //Resets the location of the player
     reset() {
       this.x = 200;
       this.y = 380;
@@ -122,22 +124,17 @@ class Player {
     }
 }
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+//Instantiates the player
 const player = new Player();
 
+//Creates an empty array and pushes an instance of the Enemy class every second 
 let allEnemies = [];
-// let enemy = new Enemy();
-// allEnemies.push(enemy);
-
 setInterval(function() { 
   let enemy = new Enemy();
   allEnemies.push(enemy);
 }, 1000);
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+//This listens for key presses and sends the keys to the Player.handleInput() method
 document.addEventListener('keyup', function(e) {
     let allowedKeys = {
         37: 'left',
